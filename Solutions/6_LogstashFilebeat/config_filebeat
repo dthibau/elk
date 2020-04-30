@@ -1,0 +1,22 @@
+input {
+    beats {
+        port => "5044"
+    }
+}
+# The filter part of this file is commented out to indicate that it is
+# optional.
+ filter {
+ 	grok {
+        match => { "message" => "%{COMBINEDAPACHELOG}"}
+    }
+    geoip {
+        source => "clientip"
+    }
+ }
+output {
+    stdout { codec => rubydebug }
+    elasticsearch {
+        hosts => ["192.168.13.11:9200" ,"192.168.13.6:9200"]   
+        index => "david_apache"
+    }
+}

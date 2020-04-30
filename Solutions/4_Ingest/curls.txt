@@ -1,0 +1,13 @@
+
+
+curl -XPUT -H "Content-Type: application/json" 'localhost:9200/_ingest/pipeline/buro?pretty' -d '
+{
+  "description" : "Extract attachment information",
+  "processors" : [
+    {  "attachment" : { "field" : "data" } },
+    {  "remove" : { "field" : "data" } }
+  ]
+}'
+
+
+java -jar ingest.7.x.jar /home/dthibau/Formations/ElasticStack/github/TPS/4_Ingestion/doc buro buro

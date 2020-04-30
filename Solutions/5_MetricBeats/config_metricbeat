@@ -1,0 +1,13 @@
+input {
+    beats {
+        port => "5043"
+    }
+}
+
+output {
+   elasticsearch {
+        hosts => [ "localhost:9200" ]
+        index => "metricbeat-%{+YYYY-MM-dd}"
+    }
+    stdout { codec => rubydebug }
+}

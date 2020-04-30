@@ -1,0 +1,47 @@
+#################### Backup / Restore #######################
+
+# elasticsearch yml
+path.repo: /home/dthibau/Formations/ElasticSearch/MyWork/Repo
+
+
+GET /_cat/indices
+
+POST /*/_open
+{
+
+}
+
+
+
+PUT _snapshot/my_backup
+{
+"type": "fs",
+"settings": {
+  "location": "/home/dthibau/Formations/ElasticSearch/MyWork/Repo"
+} }
+
+PUT _snapshot/my_backup/snapshot_1
+
+POST /*/_close
+{
+
+}
+
+POST _snapshot/my_backup/snapshot_1/_restore
+
+
+
+################## Slow log ##########################
+PUT /site/_settings
+{ "index.search.slowlog.threshold.query.warn" : "10s",
+"index.search.slowlog.threshold.fetch.debug": "10ms",
+"index.indexing.slowlog.threshold.index.info": "5s" }
+
+PUT /_cluster/settings
+{ "transient" : {
+  "logger.index.search.slowlog" : "DEBUG",
+  "logger.index.indexing.slowlog" : "WARN"
+} }
+
+
+

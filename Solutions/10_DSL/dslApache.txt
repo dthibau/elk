@@ -1,0 +1,84 @@
+GET *apache*/_search
+{
+  "query": {
+    "match": {
+      "response": "200"
+    }
+  }
+}
+
+GET *apache*/_search
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "term": {
+          "response": "404"
+        }
+      }
+     
+    } 
+  
+  }
+}
+
+GET *apache*/_search?_source=response,verb&size=20
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "term": {
+            "response.keyword": {
+              "value": "200"
+            }
+          }
+        }
+      ]    
+    } 
+  
+  }
+}
+
+GET daniel_apache/_mapping
+GET *apache*/_search?_source=response,verb
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "term": {
+            "response": {
+              "value": "200"
+            }
+          }
+        }
+      ],
+      "must": [
+        {"term": {
+          "verb.keyword": {
+            "value": "POST"
+          }
+        }}
+      ]
+    } 
+  }
+}
+
+GET logstash*apache*/_search?_source=response,verb,bytes
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+         "range": {
+           "bytes": {
+             "gte": 200000
+           }
+         } 
+        }
+      ]
+    } 
+  }
+}
+

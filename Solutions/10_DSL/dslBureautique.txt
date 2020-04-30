@@ -1,0 +1,116 @@
+GET /doc/_search
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "term": {
+          "attachment.content_type": "application/pdf"
+        }
+      }
+    }
+  },"sort": [
+    {
+      "attachment.date": {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+
+curl -XGET 'localhost:9200/docs_fr/_search?_source=name,attachment.title&pretty&explain' -d '
+{
+  "query" : {"match" : { "attachment.content" : "administration"} }
+}
+'
+
+curl -XGET 'localhost:9200/docs_fr/_search?_source=name,attachment.title&pretty&explain' -d '
+{
+  "query" : {"multi_match" : { "query" : "administration", "fields" : ["attachment.title", "attachment.content"] } }
+}
+'
+# Identique à 
+GET /doc/_search?_source=name,attachment.title
+{
+  "query": {
+    "bool": {
+      "should": [
+        {"match": {
+          "attachment.title": "administration"
+        }},{"match": {
+          "attachment.content": "administration"
+        }}
+      ]
+
+    }
+  }
+}
+
+curl -XGET 'localhost:9200/docs_fr/_search?_source=name,attachment.title&pretty' -d '
+{
+  "query" : {
+    "bool" : {
+      "must" : { "multi_match" : { "query" : "administration", "fields" : ["attachment.title", "attachment.content"] } },
+      "filter" : {
+        "range" : {  "attachment.date": {   "gte": "2016-01-01",    "lt": "2016-12-31" } } 
+      }
+    }
+  }
+}
+'
+GET parent/docs/_search?_source=name,attachment.date
+{
+  "query": {
+    "bool": {
+      "must": {
+        "multi_match": {
+          "query": "administration",
+          "fields": [
+            "attachment.title",
+            "attachment.content"
+          ]
+        }
+      },
+      "filter": [
+        {
+          "range": {
+            "attachment.date": {
+              "gte": 2013,
+              "lte": 2017
+            }
+          }
+        },
+        {
+          "term": {
+            "attachment.content_type": "application/pdf"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+curl -XGET 'localhost:9200/docs_fr/_search?_source=name,attachment.title&pretty&explain' -d '
+{
+  "query" : {
+    "bool" : {
+      "must" : { "multi_match" : { "query" : "Administration JBoss", "fields" : ["attachment.title", "attachment.title.keyword", "attachment.content"] } },
+      "filter" : {
+        "range" : {  "attachment.date": {   "gte": "2016-01-01",    "lt": "2016-12-31" } } 
+      }
+    }
+  }
+}
+'
+
+curl -XGET 'localhost:9200/docs_fr/_search?_source=name,attachment.title&pretty&explain' -d '
+{
+  "query" : {
+    "bool" : {
+      "must" : { "match" : { "attachment.content" :"Administration"} },
+      "should" : { "match" : { "attachment.content" : "Oracle" } }
+    }
+  }
+}
+'
