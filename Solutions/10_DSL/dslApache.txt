@@ -82,3 +82,39 @@ GET logstash*apache*/_search?_source=response,verb,bytes
   }
 }
 
+GET /logstash*/_search?_source_includes=@timestamp&size=20
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "range": {
+            "@timestamp": {
+              "gte": "2016",
+              "lte": "2017"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /logstash*/_search?_source_includes=message&size=20
+{
+  "query": {
+    "match": {
+      "message": "devops agile"
+    }
+  },"track_total_hits": true
+}
+
+GET /logstash*/_search?_source_includes=message&size=20
+{
+  "query": {
+    "fuzzy": {
+      "message": "devaps"
+    }
+  },"track_total_hits": true
+}
+
