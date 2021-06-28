@@ -1,0 +1,91 @@
+GET /logs2/apache2/_search?size=0&pretty
+{
+ "aggs": {
+   "byResponseCode": {
+     "terms": {
+       "field": "responseCode",
+       "size": 10
+     }, "aggs": {
+       "byVerb": {
+         "terms": {
+           "field": "verb",
+           "size": 10
+         }
+       }
+     }
+   }
+ }
+}
+
+
+GET /logs2/apache2/_search?pretty&size=0
+{
+  "aggs": {
+    "bySize": {
+      "histogram": {
+        "field": "size",
+        "interval": 100000
+      }
+    }
+  }
+}
+
+GET /logs2/apache2/_search?pretty
+{
+"aggs": {
+  "responseCode": {
+    "terms": {
+      "field": "responseCode",
+      "size": 10
+    },"aggs": {
+      "moyenne": {
+        "avg": {
+          "field": "size"
+        }
+      }
+    }
+  }
+}
+}
+
+GET /logs2/apache2/_search?size=0
+{
+  "query": {
+    "wildcard": {
+      "responseCode": {
+        "value": "4*"
+      }
+    }
+  }, 
+  "aggs": {
+    "significant": {
+      "significant_terms": {
+        "field": "clientIp"
+      }
+    }
+  }
+}
+
+#Histogramme par mois
+GET /fixed/_search?pretty&size=0
+{
+  "aggs": {
+    "parTrimestre": {
+      "date_histogram": {
+        "field": "timestamp",
+        "interval": "quarter"
+      }
+    }
+  }
+}
+# Scripted by mois
+GET /fixed/_search?size=0
+{
+  "aggs": {
+    "byMonth" : {
+      "terms": {
+        "script": "doc['timestamp'].date.monthOfYear"
+      }
+    }
+  }
+}

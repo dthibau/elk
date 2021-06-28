@@ -1,0 +1,53 @@
+input {
+    
+file {
+    path => "/home/dthibau/Formations/ElasticStack/MyWork/TPS/7_ConfApache/jboss/log/server.log*"
+    start_position => beginning
+    codec => multiline {
+    	pattern => "^\s"
+      	what => "previous"
+    }
+  }
+
+}
+
+
+filter {
+	mutate { replace => { type => "appli" } }
+	if [path] =~ "20" {
+		grok {
+			match => {
+				"path" => "(?<logdate>[0-9A-F]{4}-[0-9A-F]{2}-[0-9A-F]{2})"
+			}
+		}
+				
+	} else {
+		mutate {
+				# this will only work on logs created the same day as read
+				add_field => {"logdate" => "%{+YYYY-MM-dd}"}
+		}
+	}
+		grok { 
+			match => { 
+			 	"message" => "%{TIME:time}%{SPACE}%{LOGLEVEL:level}%{SPACE}\[%{DATA:className}\]%{SPACE}%{GREEDYDATA:message}"
+		 	
+			} 
+		}
+		date { 
+			match => [ "timestamp" , "dd/MMM/yyyy:HH:mm:ss Z" ] }
+			mutate {
+				# merge with existing time field
+				add_field => {"full_date" => "%{logdate}_%{time}"}
+			}
+			date {
+				match => ["full_date", "YYYY-MM-dd_HH:mm:ss,SSS"]
+				# remove temporary date_time field
+				remove_field => ["logdate","full_date"]
+			}
+}
+
+output {
+   
+stdout { codec => rubydebug }
+
+}

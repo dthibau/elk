@@ -1,0 +1,38 @@
+{
+  "david_template": {
+    "order": 0,
+    "version": 60001,
+    "index_patterns": [
+      "jboss-david-*"
+    ],
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    },
+    "mappings": {
+      "_default_": {
+        "dynamic_templates": [
+          {
+            "message_field": {
+              "path_match": "message",
+              "match_mapping_type": "string",
+              "mapping": {
+                "type": "text",
+                "norms": false
+              }
+            },
+            "other_string": {
+              "match": "*",
+              "match_mapping_type": "string",
+              "mapping": {
+                 "type": "keyword",
+                 "ignore_above": 256
+              }
+            }
+          }
+        ]
+      }
+    },
+    "aliases": {}
+  }
+}

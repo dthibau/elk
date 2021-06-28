@@ -1,0 +1,73 @@
+#Search Lite
+http://localhost:9200/logs2/apache/_search?q=responseCode:404&pretty
+
+http://localhost:9200/logs2/apache/_search?q=-responseCode:200&pretty
+
+http://localhost:9200/logs2/apache/_search?q=-responseCode:200%20+verb:POST&pretty
+
+http://localhost:9200/logs2/apache/_search?q=size:>1000000&pretty
+
+http://localhost:9200/logs2/apache/_search?q=timestamp:>10/09/2014&pretty
+
+
+
+### DSL 
+GET /logs2/apache2/_search?pretty
+{
+  "query": {
+    "term": {"responseCode": "404"
+    }
+  }
+}
+
+# Contexte de filtre
+GET /fixed/_search?_source=responseCode
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "term": {
+          "responseCode": "404"
+        }
+      }
+    }
+  }
+}
+
+GET /logs2/apache2/_search?pretty
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {"term": {
+          "responseCode": {
+            "value": "200"
+          }
+        }}
+      ]
+    }
+  }
+}
+
+GET /logs2/apache2/_search?pretty
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {"term": {
+          "responseCode": "200"
+        }}
+      ],"must": [
+        {"term": {
+          "verb": {
+            "value": "POST"
+          }
+        }}
+      ]
+    }
+  }
+}
+
+
+
+

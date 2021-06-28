@@ -1,0 +1,10 @@
+
+
+curl -XPUT 'localhost:9200/_ingest/pipeline/attachment?pretty' -d '
+{
+  "description" : "Extract attachment information",
+  "processors" : [
+    {  "attachment" : { "field" : "data" } }
+  ]
+}'
+

@@ -1,0 +1,15 @@
+input { 
+  file { 
+    path => "/home/dthibau/Formations/ElasticStack/MyWork/TPS/7_ConfApache/apache2/*.log*" 
+	start_position => beginning
+  } 
+}
+
+filter {
+	if [path] =~ "access" {
+		mutate { replace => { type => "apache_access" } }
+		grok { match => { "message" => "%{COMBINEDAPACHELOG}"}  }
+	}
+}
+
+output { stdout {} }
