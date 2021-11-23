@@ -1,21 +1,27 @@
-PUT _template/jboss-david
+PUT _template/jboss-log
 {
-  "index_patterns": ["jboss-david*"],
-  "settings": { "number_of_shards": 1 },
+  "index_patterns": ["jboss-logs*"],
+  "settings": { "number_of_shards": 2, "number_of_replicas": 1 },
   "mappings": {
-    "_default_": {
       "dynamic_templates": [
           {
             "string_fields": {
               "match": "*",
               "match_mapping_type": "string",
-              "path_match": "fields.*",
               "mapping": {
                 "type": "keyword"
               }
             }
           }
-      ]
-    }
+      ],
+      "properties": {
+        "className" : {
+          "type": "text",
+          "analyzer": "simple"
+        },
+        "message" : {
+          "type": "text"
+        }
+      }
   }
 }
