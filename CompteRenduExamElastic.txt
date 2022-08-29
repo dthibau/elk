@@ -1,0 +1,43 @@
+
+Modalités :
+Paiement
+Quelques jours plus tard, lien vers formulaire de planification de la session
+Avant la session, il faut vérifier (Mac/Windows + bonne connexiion internet), Uploader sous forme d'image un ID (Carte d'identité ou passeport non périmée), et chosir des questions de sécurité
+Le jour de l'exam, l'asistant de démarrage demande de
+- Désactiver les pop-up dans Chrome
+- Installer de Zoom en connexion 
+
+Ensuite en connexion avec un surveillant (Un Indien à l'autre bout du monde) qui vérifie avec vous :
+- Votre ID
+- Pas de AppleWatch, de phone, de 2ème écran
+- Rien sur le bureau (même pas un bout de papier) 
+- La pièce dans laquelle vous êtes
+
+Pendant l'examen de 3h 
+- Ne pas sortir de la pièce
+- Etre tjs devant la caméra
+- Demander une pause pipi éventuelle
+- Impossible de faire du Google mais accès à la documentation ElasticSearch
+
+L'examen :
+A disposition 2 cluster sécurisés, accessible via Kibana en license gratuite, sur la dernière version.
+10 tâches à faire (les tâches demandent en effet pas mal de boulot, recherche dans la doc, essai/erreur, etc...)
+Les réponses des tâches sont :
+- Soit des requêtes Kibana
+- Soit des créations d'index, de template, etc.. sur l'environnement mis à disposition
+
+Contenu des tâches :
+Les tâches sont des tâches compliquées et tous les coup sont permis par exemple pour une tâche il fallait modifier l'environnement et activer la license payante d'Elastic par exemple.
+Cela porte sur les dernières versions d'Elastic et ses dernières fonctionnalités
+
+Cela concerne :
+75% les aspects search engine :
+- Les constructions de requêtes avancées (bool, match_phrase, ...)
+- Les notions d'analyseur (tokenizer, char_filter, ....)
+- Les agrégations
+- script et Runtime fields
+
+25% les aspects ELK et admin
+- Mapping
+- Cross-cluster
+- DataStream et Index template
