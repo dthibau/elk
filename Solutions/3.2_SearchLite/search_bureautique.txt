@@ -1,0 +1,48 @@
+GET /bureautique/_search?q=-java
+
+GET /bureautique/_search?q=java&size=1
+
+GET /bureautique/_search?q=attachment.content:java&_source_excludes=attachment.content
+
+GET /bureautique/_search?q=attachment.content_type:pdf&_source_excludes=attachment.content
+
+GET /bureautique/_search?q=attachment.content:java AND attachment.content_type:pdf&_source_excludes=attachment.content
+
+GET /bureautique/_search?q=attachment.content:"elastic search"&_source_excludes=attachment.content
+
+GET /bureautique/_search?q=attachment.title:administration&_source_excludes=attachment.content
+
+GET /bureautique/_search?q=attachment.title:("Elastic S"*)&_source_includes=attachment.title,attachment.date&explain=true
+
+
+#Documents répondant à Java
+http://localhost:9200/docs/_search?q=java&_source_exclude=data,attachment.content&pretty
+
+#Documents ne répondant pas à Java
+http://localhost:9200/docs/_search?q=-java&_source_exclude=data,attachment.content&pretty
+
+#Documents dont le contenu répond à Java
+http://localhost:9200/docs/_search?q=attachment.content:java&_source_exclude=data,attachment.content&pretty
+
+#Documents PDF dont le contenu contient Elastic
+http://localhost:9200/docs/_search?q=%2Battachment.content:Elastic +%2Battachment.content_type:pdf&_source=name,attachment.title,attachment.content_type&pretty
+
+#Documents PDF dot le contenu contient Administration
+http://localhost:9200/docs/_search?q=%2Battachment.content:Administration+%2Battachment.content_type:pdf&_source=name,attachment.title,attachment.content_typee&pretty
+
+#Documents dont le champ titre contient administration
+http://localhost:9200/docs/_search?q=attachment.title:administration&_source=name,attachment.title&pretty
+
+#Documents dont le champ contenu contient Elastic Search
+http://localhost:9200/docs/_search?q=%2Battachment.content:elastic +%2Battachment.content:search&_source=name,attachment.title&pretty
+
+#Document ayant une date particulière
+http://localhost:9200/docs/_search?q=attachment.date:%3E2016-10-01&_source=name,attachment.date&pretty
+
+#Champ date + plusieurs mots-clés
+http://localhost:9200/docs/_search?q=attachment.date:%3E2016-10-01+%2B(administration jboss java)&_source=name,attachment.date&pretty
+
+#Champ date + plusieurs mots-clés
+http://localhost:9200/docs/_search?q=(administration jboss java)&_source=name,attachment.title&from=10&pretty
+
+http://localhost:9200/docs/_search?q=%2Battachment.title:(java elastic search)+%2Dattachment.title:(administration)&_source=name,attachment.title&size=20&pretty
