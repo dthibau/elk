@@ -1,4 +1,6 @@
-.metadata/
+*.odt
 *.odp
+*.class
 *#
-**/bin/
+**/emails-recus/
+.idea/
