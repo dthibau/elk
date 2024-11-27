@@ -1,4 +1,4 @@
-PUT _component_template/springboot_template
+PUT _component_template/springboot_component_template
 {
   "template": {
     "mappings": {
@@ -233,98 +233,6 @@ PUT _component_template/springboot_template
           "ignore_above": 1024
         },
         "application": {
-          "type": "keyword",
-          "ignore_above": 1024
-        },
-        "data_stream": {
-          "properties": {
-            "dataset": {
-              "type": "constant_keyword",
-              "value": "springboot-app"
-            },
-            "namespace": {
-              "type": "constant_keyword",
-              "value": "springboot"
-            },
-            "type": {
-              "type": "constant_keyword",
-              "value": "logs"
-            }
-          }
-        },
-        "environment": {
-          "type": "keyword",
-          "ignore_above": 1024
-        },
-        "event": {
-          "properties": {
-            "original": {
-              "type": "keyword",
-              "index": false,
-              "doc_values": false
-            }
-          }
-        },
-        "host": {
-          "properties": {
-            "name": {
-              "type": "keyword",
-              "fields": {
-                "text": {
-                  "type": "match_only_text"
-                }
-              }
-            }
-          }
-        },
-        "log": {
-          "properties": {
-            "file": {
-              "properties": {
-                "path": {
-                  "type": "keyword",
-                  "fields": {
-                    "text": {
-                      "type": "match_only_text"
-                    }
-                  }
-                }
-              }
-            },
-            "level": {
-              "type": "keyword",
-              "ignore_above": 1024
-            },
-            "message": {
-              "type": "match_only_text"
-            }
-          }
-        },
-        "logger": {
-          "type": "keyword",
-          "ignore_above": 1024
-        },
-        "message": {
-          "type": "text",
-          "analyzer": "english"
-        },
-        "process": {
-          "properties": {
-            "id": {
-              "type": "keyword",
-              "ignore_above": 1024
-            }
-          }
-        },
-        "tags": {
-          "type": "keyword",
-          "ignore_above": 1024
-        },
-        "thread": {
-          "type": "keyword",
-          "ignore_above": 1024
-        },
-        "timestamp": {
           "type": "keyword",
           "ignore_above": 1024
         }
