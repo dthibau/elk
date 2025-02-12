@@ -23,7 +23,8 @@ PUT _component_template/springboot_component_template
             ],
             "unmatch_mapping_type": "object",
             "mapping": {
-              "type": "match_only_text"
+              "type": "text",
+              "analyzer": "english"
             }
           }
         },

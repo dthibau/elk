@@ -1,0 +1,5 @@
+./jmeter -n -t ../../../github/Solutions/5_LoadTest/LoadTest.jmx -q /home/dthibau/Formations/JMeter/github/Solutions/5_LoadTest/user.properties -l ../../../github/Solutions/5_LoadTest/result.jtl
+
+
+./jmeter -Duser.language=fr -Duser.country=fr -g ../../../github/Solutions/5_LoadTest/result.jtl -q ../../../github/Solutions/5_LoadTest/reportgenerator.properties -o ../../../github/Solutions/5_LoadTest/rapport
+
